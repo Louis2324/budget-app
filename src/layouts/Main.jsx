@@ -18,7 +18,7 @@ const Main = () => {
   const { userName } = useLoaderData();
   return (
     <div className="layout">
-      <Nav userName={userName} />
+      <Nav userName={ userName } />
       <main>
         <Outlet />
       </main>
