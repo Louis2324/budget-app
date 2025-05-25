@@ -11,6 +11,7 @@ const generateRandomColor = () => {
   const existingBudgetsLength = fetchData("budgets")?.length ?? 0;
   return `${existingBudgetsLength * 34} 65% 50%`;
 };
+
 export const createBudget = ({ name, amount }) => {
   const newItem = {
     id: crypto.randomUUID(),
