@@ -27,3 +27,19 @@ export const createBudget = ({ name, amount }) => {
     JSON.stringify([...existingBudgets, newItem])
   );
 };
+
+export const createExpense = ({ name, amount, budgetId }) => {
+  const newItem = {
+    id: crypto.randomUUID(),
+    name,
+    amount: +amount,
+    createdAt: Date.now(),
+    budgetId: budgetId,
+  };
+      
+  const existingExpenses = fetchData("expenses") ?? [];
+  return localStorage.setItem(
+    "expenses",
+    JSON.stringify([...existingExpenses, newItem])
+  );
+};

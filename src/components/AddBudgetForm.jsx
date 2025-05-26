@@ -1,5 +1,5 @@
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
-import {  useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Form } from "react-router-dom";
 
 const AddBudgetForm = () => {

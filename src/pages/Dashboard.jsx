@@ -1,9 +1,10 @@
 //helper function
 import { useLoaderData } from "react-router-dom";
-import { createBudget, fetchData } from "../helpers";
+import { createBudget, createExpense, fetchData } from "../helpers";
 import Intro from "../components/Intro";
 import { toast } from "react-toastify";
 import AddBudgetForm from "../components/AddBudgetForm";
+import AddExpenseForm from "../components/AddExpenseForm";
 
 // loader function
 export function DashboardLoader() {
@@ -16,7 +17,7 @@ export function DashboardLoader() {
 export async function dashboardAction({ request }) {
   const data = await request.formData();
   const { _action, ...values } = Object.fromEntries(data);
-  
+
   if (_action === "newUser") {
     try {
       localStorage.setItem("userName", JSON.stringify(values.userName));
@@ -32,36 +33,67 @@ export async function dashboardAction({ request }) {
         name: values.newBudget,
         amount: values.newBudgetAmount,
       });
-      return toast.success("budget created");
+      return toast.success("Budget Created");
     } catch (error) {
       throw new Error("There was a problem creating your budget");
+    }
+  }
+
+  if (_action === "createExpense") {
+    console.log(values);
+    try {
+      createExpense({
+        name: values.newExpense,
+        amount: values.newExpenseAmount,
+        budgetId: values.newExpenseBudget,
+      });
+      return toast.success(`Expense ${values.newExpense} added`);
+    } catch (error) {
+      throw new Error("There was a problem creating your expense");
     }
   }
 }
 
 const Dashboard = () => {
   const { userName, budgets } = useLoaderData();
+
   return (
-    <div>
+    <>
       {userName ? (
         <div className="dashboard">
-          <h2>
+          <h1>
             Welcome back, <span className="accent">{userName}</span>
-          </h2>
+          </h1>
           <div className="grid-sm">
-            {/* {{budgets ? () : ()}} */}
-            <div className="grid-lg">
-              <div className="flex-lg">
+            {budgets && budgets.length > 0 ? (
+              <div className="grid-sm">
+                <h3>
+                  Personal budgeting is the{" "}
+                  <span className="accent">secret </span>
+                  to financial freedom.
+                </h3>
                 <AddBudgetForm />
+                <AddExpenseForm budgets={budgets} />
               </div>
-            </div>
+            ) : (
+              <div className="grid-lg">
+                <div className="flex-sm">
+                  <h3>
+                    Personal budgeting is the{" "}
+                    <span className="accent">secret </span>
+                    to financial freedom.
+                  </h3>
+                  <p>Create a budget and get started!</p>
+                  <AddBudgetForm />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ) : (
         <Intro />
       )}
-    </div>
+    </>
   );
 };
-
 export default Dashboard;
