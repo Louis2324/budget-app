@@ -40,7 +40,6 @@ export async function dashboardAction({ request }) {
   }
 
   if (_action === "createExpense") {
-    console.log(values);
     try {
       createExpense({
         name: values.newExpense,
