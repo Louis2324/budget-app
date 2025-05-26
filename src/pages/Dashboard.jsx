@@ -5,6 +5,7 @@ import Intro from "../components/Intro";
 import { toast } from "react-toastify";
 import AddBudgetForm from "../components/AddBudgetForm";
 import AddExpenseForm from "../components/AddExpenseForm";
+import BudgetItem from "../components/BudgetItem";
 
 // loader function
 export function DashboardLoader() {
@@ -73,6 +74,13 @@ const Dashboard = () => {
                 </h3>
                 <AddBudgetForm />
                 <AddExpenseForm budgets={budgets} />
+                <h2>Existing budgets</h2>
+
+                <div className="budgets">
+                  {budgets.map((budget) => {
+                    return  <BudgetItem key={budget.id} budget={budget} />;
+                  })}
+                </div>
               </div>
             ) : (
               <div className="grid-lg">
