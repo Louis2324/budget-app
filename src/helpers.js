@@ -3,8 +3,9 @@ export const fetchData = (key) => {
   return JSON.parse(localStorage.getItem(key));
 };
 
-export const deleteItem = ({ key }) => {
-  return localStorage.removeItem(key);
+export const getAllMatchingItems = ({ category, key, value }) => {
+  const data = fetchData(category);
+  return data.filter((item) => item[key] === value);
 };
 
 const generateRandomColor = () => {
@@ -67,6 +68,13 @@ export const formatPercentage = (amt) => {
   });
 };
 
-export const formatDate = (epoch) => 
-  new Date(epoch).toLocaleDateString();
-;
+export const formatDate = (epoch) => new Date(epoch).toLocaleDateString();
+
+export const deleteItem = ({ key, id }) => {
+  const data = fetchData(key);
+  if (id) {
+    const newData = data.filter((item) => item.id !== id);
+    return localStorage.setItem(key, JSON.stringify(newData));
+  }
+  return localStorage.removeItem(key);
+};
