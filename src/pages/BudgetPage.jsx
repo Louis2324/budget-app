@@ -6,11 +6,13 @@ import Table from "../components/Table";
 import { toast } from "react-toastify";
 
 export async function budgetLoader({ params }) {
-  const budget = await getAllMatchingItems({
+  const matchingBudgets = await getAllMatchingItems({
     category: "budgets",
     key: "id",
     value: params.id,
-  })[0];
+  });
+
+  const budget = matchingBudgets[0];
 
   const expenses = await getAllMatchingItems({
     category: "expenses",
@@ -66,7 +68,7 @@ const BudgetPage = () => {
         <span className="accent">{budget.name}</span> Overview
       </h1>
       <div className="flex-lg">
-        <BudgetItem budget={budget} />
+        <BudgetItem budget={budget} showDelete={true} />
         <AddExpenseForm budgets={[budget]} />
       </div>
       {expenses && expenses.length > 0 ? (

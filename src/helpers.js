@@ -1,6 +1,11 @@
 //local storage fetcher
 export const fetchData = (key) => {
-  return JSON.parse(localStorage.getItem(key));
+  const data = localStorage.getItem(key);
+  try {
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
 };
 
 export const getAllMatchingItems = ({ category, key, value }) => {
